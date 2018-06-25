@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>SQL Tools</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="css/index.css"/>
+		<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"/>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
+	</head>
+
+	<body class="container">
+		<form role="form">
+			<div class="form-group">
+				<textarea name="content" class="form-control" rows="15" placeholder="CREATE TABLE... or public class JavaObject {}" required="required"></textarea>
+			</div>
+
+			<div class="form-group">
+				<select class="form-control" name="operation">
+					<option value="sql_2_java_obj">SQL转Java对象</option>
+					<option value="java_obj_2_sql">Java对象转SQL</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="form-control btn-primary">提交</button>
+			</div>
+		</form>
+	</body>
+
+</html>
