@@ -9,16 +9,11 @@ import com.alibaba.druid.util.JdbcConstants;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.*;
 
 /**
  * Created by Paul on 2018/6/25.
  */
-@Slf4j
 public class SqlParser {
 
     /**
@@ -27,7 +22,6 @@ public class SqlParser {
      * @return 表的所有列
      */
     public static List<TableStat.Column> extractColumns(String dbType, String sql) {
-        log.info("extract columns, db type:{}, sql:{}", dbType, sql);
         if (StringUtils.isEmpty(sql)) {
             return Collections.unmodifiableList(new ArrayList<TableStat.Column>());
         }
