@@ -5,19 +5,21 @@ import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlSchemaStatVisitor;
 import com.alibaba.druid.stat.TableStat;
 import com.alibaba.druid.util.JdbcConstants;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Created by Paul on 2018/6/25.
  */
+@Slf4j
 public class SqlParser {
-
-    private static final int ONE = 1;
 
     /**
      * @param dbType {@link JdbcConstants}
@@ -25,6 +27,7 @@ public class SqlParser {
      * @return 表的所有列
      */
     public static List<TableStat.Column> extractColumns(String dbType, String sql) {
+        log.info("extract columns, db type:{}, sql:{}", dbType, sql);
         if (StringUtils.isEmpty(sql)) {
             return Collections.unmodifiableList(new ArrayList<TableStat.Column>());
         }
@@ -32,8 +35,11 @@ public class SqlParser {
         dbType = StringUtils.defaultIfEmpty(dbType, JdbcConstants.MYSQL);
 
         List<SQLStatement> stmtList = SQLUtils.parseStatements(sql, dbType);
-        Assert.state(stmtList != null && stmtList.size() == ONE);
+        if (CollectionUtils.isEmpty(stmtList)) {
+            return Collections.unmodifiableList(new ArrayList<TableStat.Column>());
+        }
 
+        // 目前仅仅用于create table语句的解析
         SQLStatement stmt = stmtList.get(0);
         MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();
         stmt.accept(visitor);

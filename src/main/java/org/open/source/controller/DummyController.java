@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Created by Paul on 2018/6/25.
  */
 @Controller
 @RequestMapping("/dummy")
+@Slf4j
 public class DummyController {
 
     @Autowired
@@ -20,6 +23,7 @@ public class DummyController {
     @ResponseBody
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public Object welcome() {
+        log.info("welcome you!");
         return dummyBiz.list();
     }
 }

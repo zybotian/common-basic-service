@@ -9,24 +9,40 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext.xml</param-value>
-    </context-param>
-
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-
     <servlet>
         <servlet-name>spring-mvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:applicationContext.xml</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>spring-mvc</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
+
+    <!-- 静态资源-->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.html</url-pattern>
+        <url-pattern>/assets/*"</url-pattern>
+        <url-pattern>/images/*</url-pattern>
+    </servlet-mapping>
+
+    <!--设置log4j的配置文件位置 -->
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:log4j.properties</param-value>
+    </context-param>
+
+    <!--使用监听加载log4j的配置文件 -->
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
 
 </web-app>

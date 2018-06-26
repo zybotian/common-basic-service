@@ -1,5 +1,7 @@
 package org.open.source.biz;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.open.source.model.Dummy;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +13,15 @@ import java.util.List;
  */
 @Service
 public class DummyBiz {
+    private static final int COUNT = 10;
+
     public List<Dummy> list() {
         List<Dummy> results = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= COUNT; i++) {
             Dummy dummy = new Dummy()
-                    .setId(i + 1000)
-                    .setName("name" + i)
-                    .setDesc("desc")
+                    .setId(RandomUtils.nextLong(1000000, 2000000))
+                    .setName(RandomStringUtils.randomAlphabetic(8))
+                    .setDesc(RandomStringUtils.randomAlphanumeric(16))
                     .setStatus(i % 3)
                     .setCreateTime(System.currentTimeMillis())
                     .setUpdateTime(System.currentTimeMillis());
