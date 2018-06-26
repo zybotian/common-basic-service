@@ -11,7 +11,7 @@
 </head>
 
 <body class="container">
-<form role="form">
+<form role="form" action="convert/sqlToObj" method="post">
     <div class="form-group">
         <textarea name="content" class="form-control" rows="20"
                   placeholder="CREATE TABLE... or public class JavaObject {}" required="required"></textarea>
@@ -19,8 +19,8 @@
 
     <div class="form-group">
         <select class="form-control" name="operation">
-            <option value="sql_2_java_obj">SQL转Java对象</option>
-            <option value="java_obj_2_sql">Java对象转SQL</option>
+            <option value="sql_to_java_obj">SQL转Java对象</option>
+            <option value="java_obj_to_sql">Java对象转SQL</option>
         </select>
     </div>
 

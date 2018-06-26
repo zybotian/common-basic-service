@@ -12,7 +12,7 @@ public class MapperFactoryTest {
     @Test
     public void testProcess() throws Exception {
         MapperFactory mapperFactory = new MapperFactory();
-        AbstractMapper mapper = mapperFactory.getMapper(MapperType.SQL_TO_JAVA);
+        AbstractMapper mapper = mapperFactory.getMapper(MapperType.SQL_TO_JAVA_OBJ);
         String source = "CREATE TABLE IF NOT EXISTS deduct_info (\n" +
                 "  `id`               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT\n" +
                 "  COMMENT '自增主键',\n" +

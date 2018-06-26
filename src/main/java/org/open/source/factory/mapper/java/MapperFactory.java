@@ -15,10 +15,10 @@ public class MapperFactory {
 
     public AbstractMapper getMapper(MapperType type) {
         switch (type) {
-            case JAVA_TO_SQL: {
+            case JAVA_OBJ_TO_SQL: {
                 return javaObjectSqlMapper;
             }
-            case SQL_TO_JAVA: {
+            case SQL_TO_JAVA_OBJ: {
                 return sqlJavaObjectMapper;
             }
             default: {
