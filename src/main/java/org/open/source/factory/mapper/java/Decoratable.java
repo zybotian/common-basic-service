@@ -10,5 +10,5 @@ public interface Decoratable {
     /**
      * 对行进行修饰
      */
-    String decorate(List<Line> lines);
+    List<Line> decorate(List<Line> lines);
 }

@@ -4,7 +4,6 @@ import com.alibaba.druid.stat.TableStat;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.open.source.util.FormatHelper;
 import org.open.source.util.SqlParser;
 
@@ -39,19 +38,18 @@ public class SqlJavaObjectMapper extends AbstractMapper {
     }
 
     @Override
-    public String decorate(List<Line> lines) {
+    public List<Line> decorate(List<Line> lines) {
         if (CollectionUtils.isEmpty(lines)) {
-            return StringUtils.EMPTY;
+            return null;
         }
 
-        StringBuilder sb = new StringBuilder();
         for (Line line : lines) {
-            sb.append(formatLine(line));
+            formatLine(line);
         }
-        return sb.toString();
+        return lines;
     }
 
-    private String formatLine(Line line) {
-        return FormatHelper.formatToJavaLine(line);
+    private void formatLine(Line line) {
+        FormatHelper.formatToJavaLine(line);
     }
 }

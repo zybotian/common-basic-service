@@ -3,6 +3,8 @@ package org.open.source.factory.mapper.java;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+
 /**
  * @author tianbo
  * @date 2018-06-26 Tuesday 15:12
@@ -43,17 +45,37 @@ public class MapperFactoryTest {
                 "  ENGINE = InnoDB\n" +
                 "  AUTO_INCREMENT = 1\n" +
                 "  DEFAULT CHARSET = utf8mb4 COLLATE utf8mb4_bin;";
-        String result = mapper.process(source, DBType.MYSQL);
-        Assert.assertEquals("long\tid;\n" +
-                "long\tuserId;\n" +
-                "int\tchannelId;\n" +
-                "long\tcreateTime;\n" +
-                "long\tupdateTime;\n" +
-                "int\tstatus;\n" +
-                "String\tdeductId;\n" +
-                "String\tcardNumber;\n" +
-                "String\tbindId;\n" +
-                "String\tbankName;\n", result);
+        List<Line> result = mapper.process(source, DBType.MYSQL);
+        Assert.assertEquals(10, result.size());
+        Assert.assertEquals("long", result.get(0).getType());
+        Assert.assertEquals("id", result.get(0).getName());
+
+        Assert.assertEquals("long", result.get(1).getType());
+        Assert.assertEquals("userId", result.get(1).getName());
+
+        Assert.assertEquals("int", result.get(2).getType());
+        Assert.assertEquals("channelId", result.get(2).getName());
+
+        Assert.assertEquals("long", result.get(3).getType());
+        Assert.assertEquals("createTime", result.get(3).getName());
+
+        Assert.assertEquals("long", result.get(4).getType());
+        Assert.assertEquals("updateTime", result.get(4).getName());
+
+        Assert.assertEquals("int", result.get(5).getType());
+        Assert.assertEquals("status", result.get(5).getName());
+
+        Assert.assertEquals("String", result.get(6).getType());
+        Assert.assertEquals("deductId", result.get(6).getName());
+
+        Assert.assertEquals("String", result.get(7).getType());
+        Assert.assertEquals("cardNumber", result.get(7).getName());
+
+        Assert.assertEquals("String", result.get(8).getType());
+        Assert.assertEquals("bindId", result.get(8).getName());
+
+        Assert.assertEquals("String", result.get(9).getType());
+        Assert.assertEquals("bankName", result.get(9).getName());
     }
 
 }

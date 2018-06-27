@@ -1,6 +1,6 @@
 package org.open.source.controller;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.open.source.Exception.ErrorCode;
 import org.open.source.Exception.ServiceException;
 import org.open.source.factory.mapper.java.*;
@@ -8,6 +8,8 @@ import org.open.source.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,8 +34,8 @@ public class ConvertController {
         if (mapperType == null) {
             throw new ServiceException(ErrorCode.INVALID_PARAM_ERROR);
         }
-        String result = mapperFactory.getMapper(mapperType).process(content, DBType.MYSQL);
-        if(StringUtils.isEmpty(result)){
+        List<Line> result = mapperFactory.getMapper(mapperType).process(content, DBType.MYSQL);
+        if (CollectionUtils.isEmpty(result)) {
             return new JsonResult(ErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new JsonResult(ErrorCode.SUCCESS, result);

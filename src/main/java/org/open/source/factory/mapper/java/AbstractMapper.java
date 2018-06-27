@@ -12,7 +12,7 @@ public abstract class AbstractMapper implements Convertable, Decoratable {
         super();
     }
 
-    public String process(String source, DBType dbType) {
+    public List<Line> process(String source, DBType dbType) {
         // step 1: 转换
         List<Line> lines = convert(source, dbType);
         // step 2: 修饰

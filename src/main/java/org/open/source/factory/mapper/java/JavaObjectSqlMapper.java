@@ -14,7 +14,7 @@ public class JavaObjectSqlMapper extends AbstractMapper {
     }
 
     @Override
-    public String decorate(List<Line> lines) {
+    public List<Line> decorate(List<Line> lines) {
         return null;
     }
 }

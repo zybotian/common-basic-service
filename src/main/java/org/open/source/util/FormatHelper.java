@@ -9,9 +9,9 @@ import org.open.source.factory.mapper.java.Line;
  */
 public class FormatHelper {
 
-    private static final String TAB = "\t";
+    private static final String TAB = "&nbsp;";
 
-    private static final String NEW_LINE = "\n";
+    private static final String NEW_LINE = "<br/><br/>";
 
     private static final String SEMICOLON = ";";
 
@@ -19,12 +19,13 @@ public class FormatHelper {
 
     private static final String SEPERATOR = "`";
 
-    public static String formatToJavaLine(Line line) {
+    public static void formatToJavaLine(Line line) {
         String javaType = DataTypeMapper.getJavaType(line.getType());
         String columnName = line.getName();
         columnName = StringUtils.replaceAll(columnName, SEPERATOR, "");
         String fieldName = convertColumnNameToFieldName(columnName);
-        return String.format(JAVA_LINE_FORMAT, javaType, fieldName);
+        line.setType(javaType);
+        line.setName(fieldName);
     }
 
     private static String convertColumnNameToFieldName(String source) {
