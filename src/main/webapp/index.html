@@ -12,16 +12,21 @@
     <script>
     $(document).ready(function(){
        $("#btn_submit").click(function(){
+           var input=$("#txt_content").val();
+           if(input==""){
+               alert("输入不能为空!");
+               return;
+           }
            $.ajax({
                type:"POST",
                url:"convert/sqlToObj",
                dataType:"json",
                data:{content:$("#txt_content").val(),operation:$("#sel_operation").val()},
                success:function(result){
-                   $("#txt_output").empty();
+                   $("#txt_output").html("");
                    for(var i=0;i<result.data.length;i++){
                        $("#txt_output").append("// "+result.data[i].comment+"\n");
-                       $("#txt_output").append(result.data[i].type+"&nbsp;"+result.data[i].name+";").append("\n");
+                       $("#txt_output").append("private "+result.data[i].type+" "+result.data[i].name+";").append("\n");
                    }
                },
                error:function(jqXHR){
@@ -29,17 +34,21 @@
                }
            });
        });
+
+       $("#btn_reset").click(function(){
+           $("#txt_output").html("");
+           $("#txt_content").html("");
+       });
     });
 
-
-    </script>
+   </script>
 </head>
 
 <body class="container" style="padding:10px 0">
 <form role="form" id="form">
     <!-- 输入区域 -->
     <div class="form-group">
-        <textarea id="txt_content" name="content" class="form-control" rows="15"
+        <textarea id="txt_content" name="content" class="form-control" rows="20"
                   placeholder="CREATE TABLE... or public class JavaObject {}" required="required"></textarea>
     </div>
 
@@ -53,14 +62,19 @@
 
     <!--选项 -->
     <div class="form-group">
-        <button type="button" class="form-control btn-primary" id="btn_submit">提交</button>
+        <button type="reset" class="btn btn-warning col-md-2" id="btn_reset"><span
+                class="glyphicon glyphicon-refresh"></span>清空
+        </button>
+        <button type="button" class="btn btn-primary col-md-2" id="btn_submit"><span
+                class="glyphicon glyphicon-hand-right"></span>提交
+        </button>
+    </div>
+
+    <!-- 结果展示 -->
+    <div class="form-group">
+        <textarea name="output" class="form-control" rows="20" id="txt_output"></textarea>
     </div>
 </form>
-
-<!-- 结果展示 -->
-<div class="form-group">
-    <textarea name="output" class="form-control" rows="15" id="txt_output"></textarea>
-</div>
 </body>
 
 </html>
