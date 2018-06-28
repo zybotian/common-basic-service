@@ -1,6 +1,7 @@
 package org.open.source.factory.mapper.java;
 
-import com.alibaba.druid.stat.TableStat;
+import com.alibaba.druid.sql.SQLUtils;
+import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -21,16 +22,18 @@ public class SqlJavaObjectMapper extends AbstractMapper {
     public List<Line> convert(String source, DBType dbType) {
         log.info("start converting, db type:{}, source:{}", dbType, source);
         dbType = ObjectUtils.defaultIfNull(dbType, DBType.DEFAULT);
-        List<TableStat.Column> columns = SqlParser.extractColumns(dbType.getValue(), source);
+        source = SQLUtils.format(source, dbType.getValue());
+        List<SQLColumnDefinition> columns = SqlParser.extractColumnDefinations(dbType.getValue(), source);
         if (CollectionUtils.isEmpty(columns)) {
             return Collections.unmodifiableList(new ArrayList<Line>());
         }
 
         List<Line> lines = new ArrayList<>();
-        for (TableStat.Column column : columns) {
+        for (SQLColumnDefinition column : columns) {
             Line line = new Line()
-                    .setType(column.getDataType())
-                    .setName(column.getName())
+                    .setType(column.getDataType().getName())
+                    .setName(column.getName().getSimpleName())
+                    .setComment(column.getComment().toString())
                     ;
             lines.add(line);
         }

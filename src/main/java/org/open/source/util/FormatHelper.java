@@ -9,23 +9,19 @@ import org.open.source.factory.mapper.java.Line;
  */
 public class FormatHelper {
 
-    private static final String TAB = "&nbsp;";
-
-    private static final String NEW_LINE = "<br/><br/>";
-
-    private static final String SEMICOLON = ";";
-
-    public static final String JAVA_LINE_FORMAT = "%s" + TAB + "%s" + SEMICOLON + NEW_LINE;
-
     private static final String SEPERATOR = "`";
+
+    private static final String SINGLE_QUOTE = "'";
 
     public static void formatToJavaLine(Line line) {
         String javaType = DataTypeMapper.getJavaType(line.getType());
         String columnName = line.getName();
         columnName = StringUtils.replaceAll(columnName, SEPERATOR, "");
         String fieldName = convertColumnNameToFieldName(columnName);
+        String comment = StringUtils.replaceAll(line.getComment(), SINGLE_QUOTE, "");
         line.setType(javaType);
         line.setName(fieldName);
+        line.setComment(comment);
     }
 
     private static String convertColumnNameToFieldName(String source) {

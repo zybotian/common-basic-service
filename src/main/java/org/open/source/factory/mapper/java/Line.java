@@ -18,4 +18,8 @@ public class Line {
      * 字段名称
      */
     private String name;
+    /**
+     * 注释
+     */
+    private String comment;
 }

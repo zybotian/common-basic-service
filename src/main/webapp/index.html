@@ -20,6 +20,7 @@
                success:function(result){
                    $("#txt_output").empty();
                    for(var i=0;i<result.data.length;i++){
+                       $("#txt_output").append("// "+result.data[i].comment+"\n");
                        $("#txt_output").append(result.data[i].type+"&nbsp;"+result.data[i].name+";").append("\n");
                    }
                },

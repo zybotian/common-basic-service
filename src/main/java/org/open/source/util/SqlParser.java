@@ -2,7 +2,9 @@ package org.open.source.util;
 
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
+import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlSchemaStatVisitor;
+import com.alibaba.druid.sql.parser.*;
 import com.alibaba.druid.stat.TableStat;
 import com.alibaba.druid.util.JdbcConstants;
 
@@ -39,5 +41,21 @@ public class SqlParser {
         stmt.accept(visitor);
 
         return Collections.unmodifiableList(new ArrayList<>(visitor.getColumns()));
+    }
+
+    public static List<SQLColumnDefinition> extractColumnDefinations(String dbType, String sql) {
+        SQLStatementParser sqlStatementParser = SQLParserUtils.createSQLStatementParser(sql, dbType);
+        SQLCreateTableStatement sqlCreateTableStatement = sqlStatementParser.parseCreateTable();
+        List<SQLTableElement> tableElementList = sqlCreateTableStatement.getTableElementList();
+
+        List<SQLColumnDefinition> columnDefinitions = new ArrayList<>();
+        for (SQLTableElement tableElement : tableElementList) {
+            if (!(tableElement instanceof SQLColumnDefinition)) {
+                continue;
+            }
+            columnDefinitions.add((SQLColumnDefinition) tableElement);
+        }
+
+        return columnDefinitions;
     }
 }
