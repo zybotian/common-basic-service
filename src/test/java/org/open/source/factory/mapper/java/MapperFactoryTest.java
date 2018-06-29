@@ -2,6 +2,7 @@ package org.open.source.factory.mapper.java;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.open.source.model.*;
 
 import java.util.List;
 
@@ -45,37 +46,39 @@ public class MapperFactoryTest {
                 "  ENGINE = InnoDB\n" +
                 "  AUTO_INCREMENT = 1\n" +
                 "  DEFAULT CHARSET = utf8mb4 COLLATE utf8mb4_bin;";
-        List<Line> result = mapper.process(source, DBType.MYSQL);
-        Assert.assertEquals(10, result.size());
-        Assert.assertEquals("long", result.get(0).getType());
-        Assert.assertEquals("id", result.get(0).getName());
+        ViewObject viewObject = mapper.process(source, DBType.MYSQL);
+        Assert.assertEquals("DeductInfo", viewObject.getObjectName());
+        List<Line> lines = viewObject.getLines();
+        Assert.assertEquals(10, lines.size());
+        Assert.assertEquals("long", lines.get(0).getType());
+        Assert.assertEquals("id", lines.get(0).getName());
 
-        Assert.assertEquals("long", result.get(1).getType());
-        Assert.assertEquals("userId", result.get(1).getName());
+        Assert.assertEquals("long", lines.get(1).getType());
+        Assert.assertEquals("userId", lines.get(1).getName());
 
-        Assert.assertEquals("int", result.get(2).getType());
-        Assert.assertEquals("channelId", result.get(2).getName());
+        Assert.assertEquals("int", lines.get(2).getType());
+        Assert.assertEquals("channelId", lines.get(2).getName());
 
-        Assert.assertEquals("long", result.get(3).getType());
-        Assert.assertEquals("createTime", result.get(3).getName());
+        Assert.assertEquals("long", lines.get(3).getType());
+        Assert.assertEquals("createTime", lines.get(3).getName());
 
-        Assert.assertEquals("long", result.get(4).getType());
-        Assert.assertEquals("updateTime", result.get(4).getName());
+        Assert.assertEquals("long", lines.get(4).getType());
+        Assert.assertEquals("updateTime", lines.get(4).getName());
 
-        Assert.assertEquals("int", result.get(5).getType());
-        Assert.assertEquals("status", result.get(5).getName());
+        Assert.assertEquals("int", lines.get(5).getType());
+        Assert.assertEquals("status", lines.get(5).getName());
 
-        Assert.assertEquals("String", result.get(6).getType());
-        Assert.assertEquals("deductId", result.get(6).getName());
+        Assert.assertEquals("String", lines.get(6).getType());
+        Assert.assertEquals("deductId", lines.get(6).getName());
 
-        Assert.assertEquals("String", result.get(7).getType());
-        Assert.assertEquals("cardNumber", result.get(7).getName());
+        Assert.assertEquals("String", lines.get(7).getType());
+        Assert.assertEquals("cardNumber", lines.get(7).getName());
 
-        Assert.assertEquals("String", result.get(8).getType());
-        Assert.assertEquals("bindId", result.get(8).getName());
+        Assert.assertEquals("String", lines.get(8).getType());
+        Assert.assertEquals("bindId", lines.get(8).getName());
 
-        Assert.assertEquals("String", result.get(9).getType());
-        Assert.assertEquals("bankName", result.get(9).getName());
+        Assert.assertEquals("String", lines.get(9).getType());
+        Assert.assertEquals("bankName", lines.get(9).getName());
     }
 
 }

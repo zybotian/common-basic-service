@@ -5,6 +5,8 @@ import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.open.source.model.*;
 import org.open.source.util.FormatHelper;
 import org.open.source.util.SqlParser;
 
@@ -19,37 +21,47 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SqlJavaObjectMapper extends AbstractMapper {
     @Override
-    public List<Line> convert(String source, DBType dbType) {
+    public ViewObject convert(String source, DBType dbType) {
         log.info("start converting, db type:{}, source:{}", dbType, source);
         dbType = ObjectUtils.defaultIfNull(dbType, DBType.DEFAULT);
         source = SQLUtils.format(source, dbType.getValue());
-        List<SQLColumnDefinition> columns = SqlParser.extractColumnDefinations(dbType.getValue(), source);
-        if (CollectionUtils.isEmpty(columns)) {
-            return Collections.unmodifiableList(new ArrayList<Line>());
+        TableDescription tableDescription = SqlParser.extractTableDescription(dbType.getValue(), source);
+
+        ViewObject viewObject = new ViewObject();
+        if (StringUtils.isEmpty(tableDescription.getTableName()) || CollectionUtils.isEmpty(tableDescription
+                .getSqlColumnDefinitionList())) {
+            // 解析结果没有表名, 或者列, 返回空对象
+            return viewObject;
         }
 
         List<Line> lines = new ArrayList<>();
-        for (SQLColumnDefinition column : columns) {
+        for (SQLColumnDefinition column : tableDescription.getSqlColumnDefinitionList()) {
             Line line = new Line()
                     .setType(column.getDataType().getName())
                     .setName(column.getName().getSimpleName())
-                    .setComment(column.getComment().toString())
-                    ;
+                    .setComment(column.getComment().toString());
             lines.add(line);
         }
-        return Collections.unmodifiableList(lines);
+        viewObject.setObjectName(tableDescription.getTableName());
+        viewObject.setLines(lines);
+        return viewObject;
     }
 
     @Override
-    public List<Line> decorate(List<Line> lines) {
-        if (CollectionUtils.isEmpty(lines)) {
-            return null;
+    public ViewObject decorate(ViewObject viewObject) {
+        if (StringUtils.isEmpty(viewObject.getObjectName()) || CollectionUtils.isEmpty(viewObject.getLines())) {
+            return viewObject;
         }
 
-        for (Line line : lines) {
+        viewObject.setObjectName(formatObjectName(viewObject.getObjectName()));
+        for (Line line : viewObject.getLines()) {
             formatLine(line);
         }
-        return lines;
+        return viewObject;
+    }
+
+    private String formatObjectName(String objectName) {
+        return FormatHelper.convert2UpperCamel(StringUtils.replaceAll(objectName, "`", ""));
     }
 
     private void formatLine(Line line) {

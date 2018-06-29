@@ -1,6 +1,7 @@
 package org.open.source.factory.mapper.java;
 
-import java.util.List;
+import org.open.source.model.DBType;
+import org.open.source.model.ViewObject;
 
 /**
  * @author tianbo
@@ -9,9 +10,6 @@ import java.util.List;
 public interface Convertable {
     /**
      * 输入转换为行
-     * @param source
-     * @param dbType
-     * @return
      */
-    List<Line> convert(String source, DBType dbType);
+    ViewObject convert(String source, DBType dbType);
 }

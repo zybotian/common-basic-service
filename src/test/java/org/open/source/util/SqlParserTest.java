@@ -7,7 +7,8 @@ import com.alibaba.druid.util.JdbcConstants;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.open.source.factory.mapper.java.DBType;
+import org.open.source.model.DBType;
+import org.open.source.model.TableDescription;
 
 import java.util.List;
 
@@ -79,7 +80,9 @@ public class SqlParserTest {
                 "KEY (city)" +
                 ")";
 
-        List<SQLColumnDefinition> columnDefinitions = SqlParser.extractColumnDefinations(DBType.MYSQL.getValue(), sql);
+        TableDescription tableDescription = SqlParser.extractTableDescription(DBType.MYSQL.getValue(), sql);
+        Assert.assertEquals("`user`", tableDescription.getTableName());
+        List<SQLColumnDefinition> columnDefinitions = tableDescription.getSqlColumnDefinitionList();
         Assert.assertEquals(5, columnDefinitions.size());
         Assert.assertEquals("id", columnDefinitions.get(0).getName().getSimpleName());
         Assert.assertEquals("BIGINT", columnDefinitions.get(0).getDataType().getName());

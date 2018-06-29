@@ -4,6 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.open.source.Exception.ErrorCode;
 import org.open.source.Exception.ServiceException;
 import org.open.source.factory.mapper.java.*;
+import org.open.source.model.*;
 import org.open.source.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,10 +35,7 @@ public class ConvertController {
         if (mapperType == null) {
             throw new ServiceException(ErrorCode.INVALID_PARAM_ERROR);
         }
-        List<Line> result = mapperFactory.getMapper(mapperType).process(content, DBType.MYSQL);
-        if (CollectionUtils.isEmpty(result)) {
-            return new JsonResult(ErrorCode.INTERNAL_SERVER_ERROR);
-        }
-        return new JsonResult(ErrorCode.SUCCESS, result);
+        ViewObject viewObject = mapperFactory.getMapper(mapperType).process(content, DBType.MYSQL);
+        return new JsonResult(ErrorCode.SUCCESS, viewObject);
     }
 }

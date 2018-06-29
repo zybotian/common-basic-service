@@ -4,12 +4,14 @@ import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlSchemaStatVisitor;
-import com.alibaba.druid.sql.parser.*;
+import com.alibaba.druid.sql.parser.SQLParserUtils;
+import com.alibaba.druid.sql.parser.SQLStatementParser;
 import com.alibaba.druid.stat.TableStat;
 import com.alibaba.druid.util.JdbcConstants;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.open.source.model.TableDescription;
 
 import java.util.*;
 
@@ -43,7 +45,7 @@ public class SqlParser {
         return Collections.unmodifiableList(new ArrayList<>(visitor.getColumns()));
     }
 
-    public static List<SQLColumnDefinition> extractColumnDefinations(String dbType, String sql) {
+    public static TableDescription extractTableDescription(String dbType, String sql) {
         SQLStatementParser sqlStatementParser = SQLParserUtils.createSQLStatementParser(sql, dbType);
         SQLCreateTableStatement sqlCreateTableStatement = sqlStatementParser.parseCreateTable();
         List<SQLTableElement> tableElementList = sqlCreateTableStatement.getTableElementList();
@@ -51,11 +53,17 @@ public class SqlParser {
         List<SQLColumnDefinition> columnDefinitions = new ArrayList<>();
         for (SQLTableElement tableElement : tableElementList) {
             if (!(tableElement instanceof SQLColumnDefinition)) {
+                // primary key, key, unique key等等过滤掉, 只保留列定义
                 continue;
             }
             columnDefinitions.add((SQLColumnDefinition) tableElement);
         }
 
-        return columnDefinitions;
+        SQLExprTableSource tableSource = sqlCreateTableStatement.getTableSource();
+        TableDescription tableDescription = new TableDescription()
+                .setSqlColumnDefinitionList(columnDefinitions)
+                .setTableName(tableSource.getName().getSimpleName())
+                ;
+        return tableDescription;
     }
 }

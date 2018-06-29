@@ -1,4 +1,4 @@
-package org.open.source.factory.mapper.java;
+package org.open.source.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

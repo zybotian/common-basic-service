@@ -1,6 +1,7 @@
 package org.open.source.factory.mapper.java;
 
-import java.util.List;
+import org.open.source.model.DBType;
+import org.open.source.model.ViewObject;
 
 /**
  * @author tianbo
@@ -9,12 +10,12 @@ import java.util.List;
 public class JavaObjectSqlMapper extends AbstractMapper {
 
     @Override
-    public List<Line> convert(String source, DBType dbType) {
+    public ViewObject convert(String source, DBType dbType) {
         return null;
     }
 
     @Override
-    public List<Line> decorate(List<Line> lines) {
+    public ViewObject decorate(ViewObject viewObject) {
         return null;
     }
 }

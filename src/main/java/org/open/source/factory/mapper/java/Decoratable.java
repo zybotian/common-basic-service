@@ -1,6 +1,6 @@
 package org.open.source.factory.mapper.java;
 
-import java.util.List;
+import org.open.source.model.ViewObject;
 
 /**
  * @author tianbo
@@ -10,5 +10,5 @@ public interface Decoratable {
     /**
      * 对行进行修饰
      */
-    List<Line> decorate(List<Line> lines);
+    ViewObject decorate(ViewObject viewObject);
 }
