@@ -1,4 +1,4 @@
-package org.open.source.Exception;
+package org.open.source.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package org.open.source.util;
 
-import org.open.source.Exception.ErrorCode;
+import org.open.source.exception.ErrorCode;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

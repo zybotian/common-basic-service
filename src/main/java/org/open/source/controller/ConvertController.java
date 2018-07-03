@@ -1,16 +1,16 @@
 package org.open.source.controller;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.open.source.Exception.ErrorCode;
-import org.open.source.Exception.ServiceException;
-import org.open.source.factory.mapper.java.*;
-import org.open.source.model.*;
+import org.apache.commons.lang3.StringUtils;
+import org.open.source.biz.ConvertBiz;
+import org.open.source.exception.ErrorCode;
+import org.open.source.exception.ServiceException;
+import org.open.source.factory.mapper.java.MapperType;
+import org.open.source.model.DBType;
+import org.open.source.model.ViewObject;
 import org.open.source.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ConvertController {
 
     @Autowired
-    MapperFactory mapperFactory;
+    ConvertBiz convertBiz;
 
     @ResponseBody
     @RequestMapping(value = "/sqlToObj", method = RequestMethod.POST)
@@ -35,7 +35,10 @@ public class ConvertController {
         if (mapperType == null) {
             throw new ServiceException(ErrorCode.INVALID_PARAM_ERROR);
         }
-        ViewObject viewObject = mapperFactory.getMapper(mapperType).process(content, DBType.MYSQL);
+        if (StringUtils.isEmpty(content)) {
+            throw new ServiceException(ErrorCode.INVALID_PARAM_ERROR);
+        }
+        ViewObject viewObject = convertBiz.convert(mapperType, content, DBType.MYSQL);
         return new JsonResult(ErrorCode.SUCCESS, viewObject);
     }
 }

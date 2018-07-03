@@ -1,4 +1,4 @@
-package org.open.source.Exception;
+package org.open.source.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +18,7 @@ public class ErrorCode {
      * 服务相关的错误
      */
     public static final ErrorCode INTERNAL_SERVER_ERROR = new ErrorCode(100010001, "内部服务错误", false);
+    public static final ErrorCode UNSUPPORTED_OPERATION_ERROR = new ErrorCode(100010002, "暂不支持该操作", false);
 
     /**
      * 参数相关的错误
