@@ -8,42 +8,7 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <script>
-    $(document).ready(function(){
-       $("#btn_submit").click(function(){
-           var input=$("#txt_content").val();
-           if(input==""){
-               alert("输入不能为空!");
-               return;
-           }
-           $.ajax({
-               type:"POST",
-               url:"convert/sqlToObj",
-               dataType:"json",
-               data:{content:$("#txt_content").val(),operation:$("#sel_operation").val()},
-               success:function(result){
-                   $("#txt_output").html("");
-                   $("#txt_output").append("public class "+result.data.objectName+" {\n");
-                   for(var i=0;i<result.data.lines.length;i++){
-                       $("#txt_output").append("    // "+result.data.lines[i].comment+"\n");
-                       $("#txt_output").append("    private "+result.data.lines[i].type+" "+result.data.lines[i].name+";\n");
-                   }
-                   $("#txt_output").append("}\n");
-               },
-               error:function(jqXHR){
-                   $("#txt_output").html("发生错误:"+jqXHR.status);
-               }
-           });
-       });
-
-       $("#btn_reset").click(function(){
-           $("#txt_output").html("");
-           $("#txt_content").html("");
-       });
-    });
-
-   </script>
+    <script src="js/index.js"></script>
 </head>
 
 <body class="container" style="padding:10px 0">
@@ -64,10 +29,10 @@
 
     <!--选项 -->
     <div class="form-group">
-        <button type="reset" class="btn btn-warning col-md-2" id="btn_reset"><span
+        <button type="reset" class="btn btn-warning col-md-2" id="btn_reset" onclick="clearAll()"><span
                 class="glyphicon glyphicon-refresh"></span>清空
         </button>
-        <button type="button" class="btn btn-primary col-md-2" id="btn_submit"><span
+        <button type="button" class="btn btn-primary col-md-2" id="btn_submit" onclick="convertSql2Obj()"><span
                 class="glyphicon glyphicon-hand-right"></span>提交
         </button>
     </div>
