@@ -30,10 +30,13 @@
     <!--选项 -->
     <div class="form-group">
         <button type="reset" class="btn btn-warning col-md-2" id="btn_reset" onclick="clearAll()"><span
-                class="glyphicon glyphicon-refresh"></span>清空
+                class="glyphicon glyphicon-refresh"></span>清空所有
         </button>
         <button type="button" class="btn btn-primary col-md-2" id="btn_submit" onclick="convertSql2Obj()"><span
-                class="glyphicon glyphicon-hand-right"></span>提交
+                class="glyphicon glyphicon-hand-right"></span>解析输入
+        </button>
+        <button type="button" style="float:right" class="btn btn-success col-md-2" id="btn_download" onclick="download()"><span
+                class="glyphicon glyphicon-download"></span>下载结果
         </button>
     </div>
 
@@ -41,6 +44,9 @@
     <div class="form-group">
         <textarea name="output" class="form-control" rows="20" id="txt_output"></textarea>
     </div>
+
+    <!--隐藏的输入框，用于保存object name -->
+    <input type="hidden" id="txt_object_name"/>
 </form>
 </body>
 

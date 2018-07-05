@@ -11,6 +11,7 @@ function convertSql2Obj() {
            data:{content:$("#txt_content").val(),operation:$("#sel_operation").val()},
            success:function(result){
                $("#txt_output").html("");
+               $("#txt_object_name").val(result.data.objectName);
                $("#txt_output").append("public class "+result.data.objectName+" {\n");
                for(var i=0;i<result.data.lines.length;i++){
                    $("#txt_output").append("    // "+result.data.lines[i].comment+"\n");
@@ -27,4 +28,20 @@ function convertSql2Obj() {
 function clearAll() {
     $("#txt_output").html("");
     $("#txt_content").html("");
+}
+
+function download() {
+    var url = "file/download";
+    var fileName = $("#txt_object_name").val();
+    var fileContent = $("#txt_output").val();
+    if (fileName=="" || fileContent==""){
+        alert("请先解析输入后再下载解析结果！");
+        return;
+    }
+    // 加上文件后缀名，暂只支持sql转java
+    fileName += ".java";
+    var form = $("<form></form>").attr("action", url).attr("method", "post");
+    form.append($("<input></input>").attr("type", "hidden").attr("name", "fileName").attr("value", fileName));
+    form.append($("<input></input>").attr("type", "hidden").attr("name", "fileContent").attr("value", fileContent));
+    form.appendTo('body').submit().remove();
 }
