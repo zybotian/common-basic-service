@@ -81,4 +81,35 @@ public class MapperFactoryTest {
         Assert.assertEquals("bankName", lines.get(9).getName());
     }
 
+    @Test
+    public void testProcessSqlProducedByNavicate() throws Exception {
+        String source = "CREATE TABLE `poets` (\n" +
+                "  `id` int(11) NOT NULL AUTO_INCREMENT,\n" +
+                "  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '作者姓名',\n" +
+                "  `created_at` datetime DEFAULT NULL COMMENT '创建日期',\n" +
+                "  `updated_at` datetime DEFAULT NULL COMMENT '修改日期',\n" +
+                "  PRIMARY KEY (`id`)\n" +
+                ") ENGINE=InnoDB AUTO_INCREMENT=2529 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;\n";
+
+        MapperFactory mapperFactory = new MapperFactory();
+        AbstractMapper mapper = mapperFactory.getMapper(MapperType.SQL_TO_JAVA_OBJ);
+
+        ViewObject viewObject = mapper.process(source, DBType.MYSQL);
+        System.out.println(viewObject);
+        Assert.assertNotNull(viewObject);
+        Assert.assertEquals("Poets", viewObject.getObjectName());
+        List<Line> lines = viewObject.getLines();
+        Assert.assertEquals("int", lines.get(0).getType());
+        Assert.assertEquals("id", lines.get(0).getName());
+        Assert.assertEquals("", lines.get(0).getComment());
+        Assert.assertEquals("String", lines.get(1).getType());
+        Assert.assertEquals("name", lines.get(1).getName());
+        Assert.assertEquals("作者姓名", lines.get(1).getComment());
+        Assert.assertEquals("Timestamp", lines.get(2).getType());
+        Assert.assertEquals("createdAt", lines.get(2).getName());
+        Assert.assertEquals("创建日期", lines.get(2).getComment());
+        Assert.assertEquals("Timestamp", lines.get(3).getType());
+        Assert.assertEquals("updatedAt", lines.get(3).getName());
+        Assert.assertEquals("修改日期", lines.get(3).getComment());
+    }
 }

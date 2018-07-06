@@ -14,7 +14,10 @@ function convertSql2Obj() {
                $("#txt_object_name").val(result.data.objectName);
                $("#txt_output").append("public class "+result.data.objectName+" {\n");
                for(var i=0;i<result.data.lines.length;i++){
-                   $("#txt_output").append("    // "+result.data.lines[i].comment+"\n");
+                   // comment允许没有
+                   if (result.data.lines[i].comment!="") {
+                       $("#txt_output").append("    // "+result.data.lines[i].comment+"\n");
+                   }
                    $("#txt_output").append("    private "+result.data.lines[i].type+" "+result.data.lines[i].name+";\n");
                }
                $("#txt_output").append("}\n");

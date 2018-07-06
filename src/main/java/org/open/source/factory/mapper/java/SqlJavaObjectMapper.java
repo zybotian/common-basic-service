@@ -39,7 +39,8 @@ public class SqlJavaObjectMapper extends AbstractMapper {
             Line line = new Line()
                     .setType(column.getDataType().getName())
                     .setName(column.getName().getSimpleName())
-                    .setComment(column.getComment().toString());
+                    // 注释可能是没有的
+                    .setComment(column.getComment() != null ? column.getComment().toString() : StringUtils.EMPTY);
             lines.add(line);
         }
         viewObject.setObjectName(tableDescription.getTableName());
