@@ -30,10 +30,8 @@ public class FileUtils {
                 log.warn("copy input stream fail, param inputStream is null!");
             }
         } finally {
-            if (outputStream != null) {
-                outputStream.flush();
-            }
             IOUtils.closeQuietly(inputStream);
+            // close方法会主动flush
             IOUtils.closeQuietly(outputStream);
         }
     }
