@@ -12,15 +12,29 @@ function convertSql2Obj() {
            success:function(result){
                $("#txt_output").html("");
                $("#txt_object_name").val(result.data.objectName);
-               $("#txt_output").append("public class "+result.data.objectName+" {\n");
-               for(var i=0;i<result.data.lines.length;i++){
-                   // comment允许没有
-                   if (result.data.lines[i].comment!="") {
-                       $("#txt_output").append("    // "+result.data.lines[i].comment+"\n");
+               if ($("#sel_operation").val() == "sql_to_java_obj") {
+                   $("#txt_output").append("public class "+result.data.objectName+" {\n");
+                   for(var i=0;i<result.data.lines.length;i++){
+                       // comment允许没有
+                       if (result.data.lines[i].comment!="") {
+                           $("#txt_output").append("    // "+result.data.lines[i].comment+"\n");
+                       }
+                       $("#txt_output").append("    private "+result.data.lines[i].type+" "+result.data.lines[i].name+";\n");
                    }
-                   $("#txt_output").append("    private "+result.data.lines[i].type+" "+result.data.lines[i].name+";\n");
+                   $("#txt_output").append("}\n");
+               } else if($("#sel_operation").val() == "sql_to_dao_def") {
+                   $("#txt_output").append("import net.paoding.rose.jade.annotation.DAO;\n");
+                   $("#txt_output").append("@DAO \n");
+                   $("#txt_output").append("public interface " + result.data.objectName+" {\n");
+                   for(var i=0;i<result.data.lines.length;i++){
+                       $("#txt_output").append("    "+result.data.lines[i].type+" "+result.data.lines[i].name+";\n");
+                   }
+                   $("#txt_output").append("}\n");
                }
-               $("#txt_output").append("}\n");
+               else {
+                   alert("暂不支持的操作!");
+               }
+
            },
            error:function(jqXHR){
                $("#txt_output").html("发生错误:"+jqXHR.status);
