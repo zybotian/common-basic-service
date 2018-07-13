@@ -2,7 +2,7 @@ package org.open.source.biz;
 
 import org.open.source.exception.ErrorCode;
 import org.open.source.exception.ServiceException;
-import org.open.source.factory.mapper.java.*;
+import org.open.source.factory.mapper.*;
 import org.open.source.model.DBType;
 import org.open.source.model.ViewObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class ConvertBiz {
     MapperFactory mapperFactory;
 
     public ViewObject convert(MapperType mapperType, String content, DBType dbType) throws ServiceException {
-        if (mapperType == MapperType.JAVA_OBJ_TO_SQL) {
+        if (mapperType == MapperType.SQL_TO_DAO_DEF) {
             throw new ServiceException(ErrorCode.UNSUPPORTED_OPERATION_ERROR);
         }
         AbstractMapper mapper = mapperFactory.getMapper(mapperType);

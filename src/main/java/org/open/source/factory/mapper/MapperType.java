@@ -1,4 +1,4 @@
-package org.open.source.factory.mapper.java;
+package org.open.source.factory.mapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +11,14 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public enum MapperType {
+    /**
+     * create table sql转成java对象
+     */
     SQL_TO_JAVA_OBJ("sql_to_java_obj"),
-    JAVA_OBJ_TO_SQL("java_obj_to_sql"),;
+    /**
+     * create table sql转成dao定义
+     */
+    SQL_TO_DAO_DEF("sql_to_dao_def"),;
 
     private static Map<String, MapperType> valueMap = new HashMap<>();
 

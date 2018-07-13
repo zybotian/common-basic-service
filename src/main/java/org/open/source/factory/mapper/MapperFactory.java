@@ -1,5 +1,7 @@
-package org.open.source.factory.mapper.java;
+package org.open.source.factory.mapper;
 
+import org.open.source.factory.mapper.dao.SqlToDAOMapper;
+import org.open.source.factory.mapper.java.SqlJavaObjectMapper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,13 +12,13 @@ import org.springframework.stereotype.Service;
 public class MapperFactory {
     private static AbstractMapper sqlJavaObjectMapper = new SqlJavaObjectMapper();
 
-    private static AbstractMapper javaObjectSqlMapper = new JavaObjectSqlMapper();
+    private static AbstractMapper sqlToDAOMapper = new SqlToDAOMapper();
 
 
     public AbstractMapper getMapper(MapperType type) {
         switch (type) {
-            case JAVA_OBJ_TO_SQL: {
-                return javaObjectSqlMapper;
+            case SQL_TO_DAO_DEF: {
+                return sqlToDAOMapper;
             }
             case SQL_TO_JAVA_OBJ: {
                 return sqlJavaObjectMapper;

@@ -2,6 +2,7 @@ package org.open.source.factory.mapper.java;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.open.source.factory.mapper.*;
 import org.open.source.model.*;
 
 import java.util.List;

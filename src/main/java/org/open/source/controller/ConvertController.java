@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.open.source.biz.ConvertBiz;
 import org.open.source.exception.ErrorCode;
 import org.open.source.exception.ServiceException;
-import org.open.source.factory.mapper.java.MapperType;
+import org.open.source.factory.mapper.MapperType;
 import org.open.source.model.DBType;
 import org.open.source.model.ViewObject;
 import org.open.source.util.JsonResult;
@@ -30,7 +30,7 @@ public class ConvertController {
     public Object convertSqlToObject(@RequestParam(name = "content") String content,
                                      @RequestParam(name = "operation") String operation)
             throws Exception {
-        log.info("convert sql to java object, content:{}, operation:{}", content, operation);
+        log.info("convert dao to java object, content:{}, operation:{}", content, operation);
         MapperType mapperType = MapperType.findByValue(operation);
         if (mapperType == null) {
             throw new ServiceException(ErrorCode.INVALID_PARAM_ERROR);

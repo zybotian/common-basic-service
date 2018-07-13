@@ -1,4 +1,4 @@
-package org.open.source.factory.mapper.java;
+package org.open.source.factory.mapper;
 
 import org.open.source.model.DBType;
 import org.open.source.model.ViewObject;
