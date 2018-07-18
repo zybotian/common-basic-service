@@ -68,14 +68,22 @@ public class FormatHelper {
         return Joiner.on(",").join(getNameTokens(lines, true));
     }
 
-    // TODO
     public static String formatToInsertValues(List<Line> lines) {
-        return "TODO";
+        List<String> nameTokens = getNameTokens(lines, false);
+        StringBuilder sb = new StringBuilder();
+        for (String token : nameTokens) {
+            sb.append(":1." + convert2LowerCamel(token) + ", ");
+        }
+        return StringUtils.substringBeforeLast(sb.toString(), ",");
     }
 
-    // TODO
     public static String formatToUpdateColumns(List<Line> lines) {
-        return "TODO";
+        List<String> nameTokens = getNameTokens(lines, false);
+        StringBuilder sb = new StringBuilder();
+        for (String token : nameTokens) {
+            sb.append(token + "=:1." + convert2LowerCamel(token) + ", ");
+        }
+        return StringUtils.substringBeforeLast(sb.toString(), ",");
     }
 
     public static String formatToTableName(String objectName) {

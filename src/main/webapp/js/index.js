@@ -23,7 +23,7 @@ function convertSql2Obj() {
                    }
                    $("#txt_output").append("}\n");
                } else if($("#sel_operation").val() == "sql_to_dao_def") {
-                   $("#txt_output").append("import net.paoding.rose.jade.annotation.DAO;\n");
+                   $("#txt_output").append("import net.paoding.rose.jade.annotation.DAO;\n\n");
                    $("#txt_output").append("@DAO \n");
                    $("#txt_output").append("public interface " + result.data.objectName+" {\n");
                    for(var i=0;i<result.data.lines.length;i++){
