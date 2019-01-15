@@ -1,41 +1,82 @@
-## common-basic-service
+# common-basic-service
 
-<h2>A simple and useful efficiency tool for java developers</h1>
+### A simple and useful efficiency tool for java developers
 
 Currently, the common basic service supported functions as below:
 
-<h3>(1) converting sql to java POJO class;</h3>
-<h3>(2) converting sql to paoding rose framework DAO class;</h3>
+- converting sql(create table sql script) to java POJO class
+- converting sql(create table sql script) to paoding rose framework DAO class
 
-This tool does not need to connect to database, you ONLY need paste your sql script into the textarea and click button, you will get the parsed result!
+This tool does not need to connect to database, you ONLY need paste your sql script into the input textarea and click 
+button, you will get the parsed result!
 
 For Example, you input:
-<div>
-<code>CREATE TABLE IF NOT EXISTS `bill` (</code>
-<code> `id`              BIGINT                  UNSIGNED NOT NULL AUTO_INCREMENT</code>
-<code>  COMMENT '自增主键',</code>
-<code>  `user_id`         BIGINT                  NOT NULL DEFAULT 0</code>
-<code>  COMMENT '用户id',</code>
-<code>  `create_time`     BIGINT                  NOT NULL DEFAULT 0</code>
-<code>  COMMENT '创建时间',</code>
-<code>  `update_time`     BIGINT                  NOT NULL DEFAULT 0</code>
-<code>  COMMENT '更新时间',</code>
-<code>  PRIMARY KEY (`id`),</code>
-<code>  KEY `idx_bill_uid` (`user_id`)</code>
-<code>)  ENGINE = InnoDB</code>
-<code>  AUTO_INCREMENT = 1</code>
-<code>  DEFAULT CHARSET = utf8mb4 COLLATE utf8mb4_bin;</code>
-</div>
-you will get:
-<div>
-<code>public class Bill {</code>
-  <code>    // 自增主键</code>
-<code>    private long id;</code>
-<code>    // 用户id</code>
-<code>    private long userId;</code>
-<code>    // 创建时间</code>
-<code>    private long createTime;</code>
-<code>    // 更新时间</code>
-<code>    private long updateTime;</code>
-<code>}</code>
-</div>
+```
+CREATE TABLE IF NOT EXISTS bill (
+id              BIGINT                  UNSIGNED NOT NULL AUTO_INCREMENT
+COMMENT '自增主键',
+user_id         BIGINT                  NOT NULL DEFAULT 0
+COMMENT '用户id',
+create_time     BIGINT                  NOT NULL DEFAULT 0
+COMMENT '创建时间',
+update_time     BIGINT                  NOT NULL DEFAULT 0
+COMMENT '更新时间',
+PRIMARY KEY (id),
+KEY idx_bill_uid (user_id)
+)  ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARSET = utf8mb4 COLLATE utf8mb4_bin;
+```
+
+you will get the POJO definition(Xxx.java, you can download it directly):
+
+```
+public class Bill {
+    // 自增主键
+    private long id;
+    // 用户id
+    private long userId;
+    // 创建时间
+    private long createTime;
+    // 更新时间
+    private long updateTime;
+}
+```
+
+and also you can get the paoding rose dao class(XxxDAO.java, also you can download it):
+```
+import net.paoding.rose.jade.annotation.DAO;
+
+@DAO 
+public interface BillDAO {
+    String TABLE_NAME = "`bill`";
+    String INSERT_COLUMNS = "`id`,`user_id`,`create_time`,`update_time`";
+    String SELECT_COLUMNS = "`id`,`user_id`,`create_time`,`update_time`";
+    String INSERT_VALUES = ":1.id, :1.userId, :1.createTime, :1.updateTime";
+    String UPDATE_COLUMNS = "id=:1.id, user_id=:1.userId, create_time=:1.createTime, update_time=:1.updateTime";
+}
+```
+
+The core implementation is using alibaba druid ***SQLParserUtils*** to parse sql, as below:
+```
+           SQLStatementParser sqlStatementParser = SQLParserUtils.createSQLStatementParser(sql, dbType);
+           SQLCreateTableStatement sqlCreateTableStatement = sqlStatementParser.parseCreateTable();
+           List<SQLTableElement> tableElementList = sqlCreateTableStatement.getTableElementList();
+   
+           List<SQLColumnDefinition> columnDefinitions = new ArrayList<>();
+           for (SQLTableElement tableElement : tableElementList) {
+               if (!(tableElement instanceof SQLColumnDefinition)) {
+                   // primary key, key, unique key等等过滤掉, 只保留列定义
+                   continue;
+               }
+               columnDefinitions.add((SQLColumnDefinition) tableElement);
+           }
+```
+
+when we get the column definitions, we can get the column data type, column name, and column comments and so on.
+Then we can generate the corresponding java POJO definition and DAO definition.
+
+## Benefits
+- as you can see, after handwriting creating table sql statements, we do not need to handwrite POJO definition and 
+DAO class, which is a disaster when the table is very complex.
+- the tool is very simple to use, we don't need to connect to database(comparision with some other solutions)
