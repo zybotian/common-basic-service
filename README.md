@@ -13,7 +13,7 @@ button, you will get the parsed result!
 #### ![operation](https://raw.githubusercontent.com/zybotian/common-basic-service/master/src/imgs/home.png)
 
 For Example, you input:
-```
+```mysql
 CREATE TABLE IF NOT EXISTS bill (
 id              BIGINT                  UNSIGNED NOT NULL AUTO_INCREMENT
 COMMENT '自增主键',
@@ -32,7 +32,7 @@ DEFAULT CHARSET = utf8mb4 COLLATE utf8mb4_bin;
 
 you will get the POJO definition(Xxx.java, you can download it directly):
 
-```
+```java
 public class Bill {
     // 自增主键
     private long id;
@@ -46,7 +46,7 @@ public class Bill {
 ```
 
 and also you can get the paoding rose dao class(XxxDAO.java, also you can download it):
-```
+```java
 import net.paoding.rose.jade.annotation.DAO;
 
 @DAO 
@@ -60,7 +60,7 @@ public interface BillDAO {
 ```
 
 The core implementation is using alibaba druid ***SQLParserUtils*** to parse sql, as below:
-```
+```java
            SQLStatementParser sqlStatementParser = SQLParserUtils.createSQLStatementParser(sql, dbType);
            SQLCreateTableStatement sqlCreateTableStatement = sqlStatementParser.parseCreateTable();
            List<SQLTableElement> tableElementList = sqlCreateTableStatement.getTableElementList();
