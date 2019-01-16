@@ -21,7 +21,7 @@ public class FileUtils {
         try {
             response.setContentType(contentType);
             response.setHeader("Content-Disposition",
-                    "attachment; filename*=UTF-8''" + URLEncoder.encode(filename, "utf-8"));
+                    "attachment; filename=" + URLEncoder.encode(filename, "utf-8"));
             outputStream = new BufferedOutputStream(response.getOutputStream());
 
             if (inputStream != null) {

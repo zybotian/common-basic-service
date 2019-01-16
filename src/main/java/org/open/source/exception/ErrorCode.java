@@ -25,8 +25,26 @@ public class ErrorCode {
      */
     public static final ErrorCode INVALID_PARAM_ERROR = new ErrorCode(100020001, "无效的请求参数", false);
 
+    /**
+     * 访问控制相关的错误
+     */
+    public static final ErrorCode UNIQUE_CODE_EXPIRED = new ErrorCode(100030001, "唯一识别码已过期", false);
+
+    /**
+     * 对象相关的错误
+     */
+    public static final ErrorCode FILE_NOT_FOUND = new ErrorCode(100040001, "文件不存在", false);
 
     private int code;
     private String msg;
     private boolean success;
+
+    @Override
+    public String toString() {
+        return "ErrorCode{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", success=" + success +
+                '}';
+    }
 }
