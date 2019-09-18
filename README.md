@@ -2,12 +2,14 @@
 
 ### A simple and useful efficiency tool for java developers
 
+> Java + Bootstrap + JQuery 
+
 Currently, the common basic service supported functions as below:
 
 - converting sql(create table sql script) to java POJO class
 - converting sql(create table sql script) to paoding rose framework DAO class
 
-This tool does not need to connect to database, you ONLY need paste your sql script into the input textarea and click 
+This tool does not need to connect to database, you ONLY need to paste your sql script into the input textarea and click 
 button, you will get the parsed result!
 
 #### ![operation](https://raw.githubusercontent.com/zybotian/common-basic-service/master/src/imgs/home.png)
