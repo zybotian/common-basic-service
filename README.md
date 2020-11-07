@@ -12,8 +12,7 @@ Currently, the common basic service supported functions as below:
 This tool does not need to connect to database, you ONLY need to paste your sql script into the input textarea and click 
 button, you will get the parsed result!
 
-#### ![operation](https://raw.githubusercontent.com/zybotian/common-basic-service/master/src/imgs/home.png)
-#### ![VIEW3](https://github.com/zybotian/common-basic-service/blob/master/src/imgs/home.png)
+#### ![tool screen shot](https://github.com/zybotian/common-basic-service/blob/master/src/imgs/home.png)
 
 For Example, you input:
 ```mysql
