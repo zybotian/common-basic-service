@@ -13,6 +13,8 @@ This tool does not need to connect to database, you ONLY need to paste your sql 
 button, you will get the parsed result!
 
 #### ![operation](https://raw.githubusercontent.com/zybotian/common-basic-service/master/src/imgs/home.png)
+#### ![view](https://github.com/zybotian/common-basic-service/blob/master/src/imgs/home.png?raw=true)
+#### ![view](https://github.com/zybotian/common-basic-service/master/src/imgs/home.png?raw=true)
 
 For Example, you input:
 ```mysql
